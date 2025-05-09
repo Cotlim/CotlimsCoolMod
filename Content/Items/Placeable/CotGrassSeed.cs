@@ -1,0 +1,227 @@
+﻿
+using CotlimsCoolMod.Content.Tiles;
+using Microsoft.Xna.Framework;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using Terraria;
+using Terraria.Audio;
+using Terraria.DataStructures;
+using Terraria.GameContent;
+using Terraria.ID;
+using Terraria.ModLoader;
+using Terraria.ObjectData;
+
+namespace CotlimsCoolMod.Content.Items.Placeable
+{
+    public class CotGrassSeed : ModItem
+    {
+        public override void SetStaticDefaults()
+        {
+            Item.ResearchUnlockCount = 100;
+
+            // Mods can be translated to any of the languages tModLoader supports. See https://github.com/tModLoader/tModLoader/wiki/Localization
+            // Translations go in localization files (.hjson files), but these are listed here as an example to help modders become aware of the possibility that users might want to use your mod in other lauguages:
+            // English: "Example Block", "This is a modded tile."
+        }
+
+        public override void SetDefaults()
+        {
+
+            Item.DefaultToPlaceableTile(ModContent.TileType<Tiles.CotGrassBlock>());
+            Item.width = 22;
+            Item.height = 18;
+            //ItemID.Sets.ExtractinatorMode[Item.type] = Item.type;
+            ItemID.Sets.GrassSeeds[Type] = true;
+            CotlimsCoolMod.GrassTileRelationsheep.Add(
+                new(Type, TileID.Grass, ModContent.TileType<Tiles.CotGrassBlock>())
+                );
+            Item.createTile = -1;
+        }
+
+        // Please see Content/ExampleRecipes.cs for a detailed explanation of recipe creation.
+        public override void AddRecipes()
+        {
+            CreateRecipe(10)
+                .AddIngredient(ItemID.DirtBlock)
+                .Register();
+        }
+
+        public override void ExtractinatorUse(int extractinatorBlockType, ref int resultType, ref int resultStack)
+        { // Calls upon use of an extractinator. Below is the chance you will get ExampleOre from the extractinator.
+            if (Main.rand.NextBool(3))
+            {
+                resultType = ItemID.IronOre;  // Get this from the extractinator with a 1 in 3 chance.
+                if (Main.rand.NextBool(5))
+                {
+                    resultStack += Main.rand.Next(2); // Add a chance to get more than one of ExampleOre from the extractinator.
+                }
+            }
+        }
+        public override bool? UseItem(Player player)
+        {
+            int i = Player.tileTargetX;
+            int j = Player.tileTargetY;
+
+            Tile tile = Framing.GetTileSafely(Player.tileTargetX, Player.tileTargetY);
+
+            bool flag = !CotlimsCoolMod.IsTileSolid(i - 1, j) ||
+                        !CotlimsCoolMod.IsTileSolid(i, j + 1) ||
+                        !CotlimsCoolMod.IsTileSolid(i + 1, j) ||
+                        !CotlimsCoolMod.IsTileSolid(i, j - 1);
+
+            bool flag2 = !CotlimsCoolMod.IsTileSolid(i - 1, j - 1) ||
+                !CotlimsCoolMod.IsTileSolid(i - 1, j + 1) ||
+                !CotlimsCoolMod.IsTileSolid(i + 1, j + 1) ||
+                !CotlimsCoolMod.IsTileSolid(i + 1, j - 1);
+
+            if (tile.HasTile && !tile.IsActuated && (flag || flag2))
+            {
+                foreach (var l in CotlimsCoolMod.GrassTileRelationsheep.Where(t => t.Item1 == Type))
+                {
+                    if (tile.TileType == l.Item2)
+                    {
+                        Main.tile[i, j].TileType = (ushort)l.Item3;
+                        SoundEngine.PlaySound(SoundID.Dig, player.Center);
+                        WorldGen.SquareTileFrame(i, j);
+                        NetMessage.SendTileSquare(-1, i, j, 1);
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+        public override void Load()
+        {
+            base.Load();
+
+        }
+        
+        public static void SmartCursorCustomSeedModification(Terraria.GameContent.On_SmartCursorHelper.orig_Step_GrassSeeds orig, object providedInfo, ref int focusedX, ref int focusedY)
+        {
+            //orig(providedInfo, ref focusedX, ref focusedY);
+            Type[] nestType = typeof(SmartCursorHelper).GetNestedTypes(BindingFlags.NonPublic);
+            FieldInfo providedInfo_item_field = nestType[0].GetField("item");
+            FieldInfo providedInfo_reachableStartX_field = nestType[0].GetField("reachableStartX");
+            FieldInfo providedInfo_reachableEndX_field = nestType[0].GetField("reachableEndX");
+            FieldInfo providedInfo_reachableStartY_field = nestType[0].GetField("reachableStartY");
+            FieldInfo providedInfo_reachableEndY_field = nestType[0].GetField("reachableEndY");
+            FieldInfo providedInfo_mouse_field = nestType[0].GetField("mouse");
+            FieldInfo sCH_targets_field = typeof(SmartCursorHelper).GetField("_targets", BindingFlags.NonPublic | BindingFlags.Static);
+
+
+            Item providedInfo_item = (Item)providedInfo_item_field.GetValue(providedInfo);
+            int providedInfo_reachableStartX = (int)providedInfo_reachableStartX_field.GetValue(providedInfo);
+            int providedInfo_reachableEndX = (int)providedInfo_reachableEndX_field.GetValue(providedInfo);
+            int providedInfo_reachableStartY = (int)providedInfo_reachableStartY_field.GetValue(providedInfo);
+            int providedInfo_reachableEndY = (int)providedInfo_reachableEndY_field.GetValue(providedInfo);
+            Vector2 providedInfo_mouse = (Vector2)providedInfo_mouse_field.GetValue(providedInfo);
+            List<Tuple<int, int>> targets = (List<Tuple<int, int>>)sCH_targets_field.GetValue(null);
+
+
+
+
+
+            //Main.NewText($"{}");
+
+
+            //Main.NewText($"{sCH_targets.GetValue(null)}");
+
+            if (focusedX > -1 || focusedY > -1)
+            {
+                return;
+            }
+            int type = providedInfo_item.type;
+            if (type < 0 || !ItemID.Sets.GrassSeeds[type])
+            {
+                return;
+            }
+            targets.Clear();
+            for (int i = providedInfo_reachableStartX; i <= providedInfo_reachableEndX; i++)
+            {
+                for (int j = providedInfo_reachableStartY; j <= providedInfo_reachableEndY; j++)
+                {
+                    Tile tile = Main.tile[i, j];
+
+                    bool flag = !CotlimsCoolMod.IsTileSolid(i - 1, j) ||
+                        !CotlimsCoolMod.IsTileSolid(i, j + 1) ||
+                        !CotlimsCoolMod.IsTileSolid(i + 1, j) ||
+                        !CotlimsCoolMod.IsTileSolid(i, j - 1);
+
+                    bool flag2 = !CotlimsCoolMod.IsTileSolid(i - 1, j - 1) ||
+                        !CotlimsCoolMod.IsTileSolid(i - 1, j + 1) ||
+                        !CotlimsCoolMod.IsTileSolid(i + 1, j + 1) ||
+                        !CotlimsCoolMod.IsTileSolid(i + 1, j - 1);
+
+
+                    if (tile.HasTile && !tile.IsActuated && (flag || flag2))
+                    {
+                        bool flag3;
+                        switch (type)
+                        {
+                            default:
+                                flag3 = tile.TileType == 0;
+                                break;
+                            case 59:
+                            case 2171:
+                                flag3 = tile.TileType == 0 || tile.TileType == 59;
+                                break;
+                            case 194:
+                            case 195:
+                                flag3 = tile.TileType == 59;
+                                break;
+                            case 5214:
+                                flag3 = tile.TileType == 57;
+                                break;
+                        }
+                        foreach (var l in CotlimsCoolMod.GrassTileRelationsheep)
+                        {
+                            if (type == l.Item1)
+                            {
+                                flag3 = tile.TileType == l.Item2;
+                                if (flag3)
+                                {
+                                    break;
+                                }
+                            }
+                        }
+
+                        if (flag3)
+                            targets.Add(new Tuple<int, int>(i, j));
+                    }
+                }
+            }
+            if (targets.Count > 0)
+            {
+
+                float num = -1f;
+                Tuple<int, int> tuple = targets[0];
+                for (int k = 0; k < targets.Count; k++)
+                {
+                    float num2 = Vector2.Distance(new Vector2((float)targets[k].Item1, (float)targets[k].Item2) * 16f + Vector2.One * 8f, providedInfo_mouse);
+                    if (num == -1f || num2 < num)
+                    {
+                        num = num2;
+                        tuple = targets[k];
+                    }
+                }
+                if (Collision.InTileBounds(tuple.Item1, tuple.Item2, providedInfo_reachableStartX, providedInfo_reachableStartY, providedInfo_reachableEndX, providedInfo_reachableEndY))
+                {
+                    focusedX = tuple.Item1;
+                    focusedY = tuple.Item2;
+                }
+            }
+            targets.Clear();
+
+            providedInfo_item_field.SetValue(providedInfo, providedInfo_item);
+            providedInfo_reachableStartX_field.SetValue(providedInfo, providedInfo_reachableStartX);
+            providedInfo_reachableEndX_field.SetValue(providedInfo, providedInfo_reachableEndX);
+            providedInfo_reachableStartY_field.SetValue(providedInfo, providedInfo_reachableStartY);
+            providedInfo_reachableEndY_field.SetValue(providedInfo, providedInfo_reachableEndY);
+            providedInfo_mouse_field.SetValue(providedInfo, providedInfo_mouse);
+            sCH_targets_field.SetValue(null, targets);
+            //orig(providedInfo, ref focusedX, ref focusedY);
+        }
+    }
+}

@@ -1,0 +1,3 @@
+displayName = Cotlim's Cool Mod
+author = Cotlim
+version = 0.1

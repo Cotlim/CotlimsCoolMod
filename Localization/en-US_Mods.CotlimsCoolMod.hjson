@@ -1,0 +1,106 @@
+Projectiles: {
+	FinalBlasterShootProjectile.DisplayName: Final Blaster Shoot Projectile
+	FinalBlasterLoadProjectile.DisplayName: Final Blaster Load Projectile
+	FasterStarProjectile.DisplayName: Faster Star Projectile
+	FasterStarLineProjectile.DisplayName: Faster Star Line Projectile
+	FasterBBoulderProjectile.DisplayName: Faster B Boulder Projectile
+	FasterBBoulderLineProjectile.DisplayName: Faster B Boulder Line Projectile
+	FinalBlasterTrailProjectile.DisplayName: Final Blaster Trail Projectile
+	CotlandSolutionProjectile.DisplayName: Cotland Solution Projectile
+	SandSnowCompoundBallGunProjectile.DisplayName: Sand Snow Compound Ball Gun Projectile
+	SandSnowCompoundBallFallingProjectile.DisplayName: Sand Snow Compound Ball Falling Projectile
+}
+
+Items: {
+	Wendows: {
+		Tooltip: ""
+		DisplayName: Wendows
+	}
+
+	UltraGun: {
+		Tooltip: ""
+		DisplayName: Ultra Gun
+	}
+
+	FinalBlaster: {
+		Tooltip: ""
+		DisplayName: Final Blaster
+	}
+
+	CotShotgun: {
+		Tooltip: ""
+		DisplayName: Cot Shotgun
+	}
+
+	Cotrinium: {
+		Tooltip: ""
+		DisplayName: Cotrinium
+	}
+
+	ExampleCampfire: {
+		DisplayName: Example Campfire
+		Tooltip: ""
+	}
+
+	ExampleTorch: {
+		DisplayName: Example Torch
+		Tooltip: ""
+	}
+
+	ExampleBlock: {
+		DisplayName: Example Block
+		Tooltip: ""
+	}
+
+	CotBlock: {
+		DisplayName: Cot Block
+		Tooltip: ""
+	}
+
+	CotCampfire: {
+		DisplayName: Cot Campfire
+		Tooltip: ""
+	}
+
+	CotTorch: {
+		DisplayName: Cot Torch
+		Tooltip: ""
+	}
+
+	CotGrassSeed: {
+		DisplayName: Cot Grass Seed
+		Tooltip: ""
+	}
+
+	CotlandSolutionItem: {
+		DisplayName: Cotland Solution Item
+		Tooltip: ""
+	}
+
+	CotlandWall: {
+		DisplayName: Cotland Wall
+		Tooltip: ""
+	}
+
+	SandSnowCompound: {
+		Tooltip: ""
+		DisplayName: Sand Snow Compound
+	}
+}
+
+Biomes: {
+	ExampleSurfaceBiome: {
+		DisplayName: Example Surface Biome
+		TownNPCDialogueName: the Example Surface Biome
+	}
+
+	ExampleUndergroundBiome: {
+		DisplayName: Example Underground Biome
+		TownNPCDialogueName: the Example Underground Biome
+	}
+
+	CotlandSurfaceBiome: {
+		DisplayName: Cotland Surface Biome
+		TownNPCDialogueName: the Cotland Surface Biome
+	}
+}
