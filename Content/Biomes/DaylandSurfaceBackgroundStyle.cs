@@ -2,7 +2,7 @@ using Terraria.ModLoader;
 
 namespace CotlimsCoolMod.Backgrounds
 {
-    public class CotlandSurfaceBackgroundStyle : ModSurfaceBackgroundStyle
+    public class DaylandSurfaceBackgroundStyle : ModSurfaceBackgroundStyle
     {
         // Use this to keep far Backgrounds like the mountains.
         public override void ModifyFarFades(float[] fades, float transitionSpeed)
@@ -30,7 +30,7 @@ namespace CotlimsCoolMod.Backgrounds
 
         public override int ChooseFarTexture()
         {
-            return BackgroundTextureLoader.GetBackgroundSlot(Mod, "Assets/Textures/Backgrounds/ExampleBiomeSurfaceFar");
+            return BackgroundTextureLoader.GetBackgroundSlot(Mod, "Assets/Textures/Backgrounds/DaylandBiomeSurfaceFar");
         }
 
         private static int SurfaceFrameCounter;
@@ -45,13 +45,13 @@ namespace CotlimsCoolMod.Backgrounds
             switch (0)
             {
                 case 0:
-                    return BackgroundTextureLoader.GetBackgroundSlot(Mod, "Assets/Textures/Backgrounds/ExampleBiomeSurfaceMid0");
+                    return BackgroundTextureLoader.GetBackgroundSlot(Mod, "Assets/Textures/Backgrounds/DaylandBiomeSurfaceMid0");
                 case 1:
-                    return BackgroundTextureLoader.GetBackgroundSlot(Mod, "Assets/Textures/Backgrounds/ExampleBiomeSurfaceMid1");
+                    return BackgroundTextureLoader.GetBackgroundSlot(Mod, "Assets/Textures/Backgrounds/DaylandBiomeSurfaceMid1");
                 case 2:
-                    return BackgroundTextureLoader.GetBackgroundSlot(Mod, "Assets/Textures/Backgrounds/ExampleBiomeSurfaceMid2");
+                    return BackgroundTextureLoader.GetBackgroundSlot(Mod, "Assets/Textures/Backgrounds/DaylandBiomeSurfaceMid2");
                 case 3:
-                    return BackgroundTextureLoader.GetBackgroundSlot(Mod, "Assets/Textures/Backgrounds/ExampleBiomeSurfaceMid3"); // You can use the full path version of GetBackgroundSlot too
+                    return BackgroundTextureLoader.GetBackgroundSlot(Mod, "Assets/Textures/Backgrounds/DaylandBiomeSurfaceMid3"); // You can use the full path version of GetBackgroundSlot too
                 default:
                     return -1;
             }
@@ -59,7 +59,7 @@ namespace CotlimsCoolMod.Backgrounds
 
         public override int ChooseCloseTexture(ref float scale, ref double parallax, ref float a, ref float b)
         {
-            return BackgroundTextureLoader.GetBackgroundSlot(Mod, "Assets/Textures/Backgrounds/ExampleBiomeSurfaceClose");
+            return BackgroundTextureLoader.GetBackgroundSlot(Mod, "Assets/Textures/Backgrounds/DaylandBiomeSurfaceClose");
         }
     }
 }

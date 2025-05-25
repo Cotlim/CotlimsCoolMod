@@ -4,16 +4,16 @@ using Terraria.ModLoader;
 
 namespace CotlimsCoolMod.Content.Items.Placeable
 {
-	public class CotCampfire : ModItem
+	public class SunGrassCampfire : ModItem
 	{
 		public override void SetDefaults() {
-			Item.DefaultToPlaceableTile(ModContent.TileType<Tiles.ExampleCampfire>(), 0);
+			Item.DefaultToPlaceableTile(ModContent.TileType<Tiles.SunGrassCampfire>(), 0);
 		}
 
 		public override void AddRecipes() {
 			CreateRecipe()
 				.AddRecipeGroup(RecipeGroupID.Wood, 10)
-				.AddIngredient<CotTorch>(5)
+				.AddIngredient<SunGrassTorch>(5)
 				.Register();
 		}
 	}

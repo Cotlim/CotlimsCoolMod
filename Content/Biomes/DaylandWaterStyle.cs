@@ -8,29 +8,29 @@ using Terraria.ModLoader;
 
 namespace CotlimsCoolMod.Content.Biomes
 {
-    public class CotlandWaterStyle : ModWaterStyle
+    public class DaylandWaterStyle : ModWaterStyle
     {
 
 
         private Asset<Texture2D> rainTexture;
         public override void Load()
         {
-            rainTexture = Mod.Assets.Request<Texture2D>("Content/Biomes/ExampleRain");
+            rainTexture = Mod.Assets.Request<Texture2D>("Content/Biomes/DaylandRain");
         }
 
         public override int ChooseWaterfallStyle()
         {
-            return ModContent.GetInstance<ExampleWaterfallStyle>().Slot;
+            return ModContent.GetInstance<DaylandWaterfallStyle>().Slot;
         }
 
         public override int GetSplashDust()
         {
-            return ModContent.DustType<CotlandSolution>();
+            return ModContent.DustType<DaylandSolution>();
         }
 
         public override int GetDropletGore()
         {
-            return ModContent.GoreType<ExampleDroplet>();
+            return ModContent.GoreType<DaylandDroplet>();
         }
 
         public override void LightColorMultiplier(ref float r, ref float g, ref float b)

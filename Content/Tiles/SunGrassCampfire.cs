@@ -15,7 +15,7 @@ using Terraria.Utilities;
 namespace CotlimsCoolMod.Content.Tiles
 {
 	// Campfires are special tiles that support the block swap feature and the biome torch feature. ExampleSurfaceBiome shows how the biome campfire is assigned.
-	public class ExampleCampfire : ModTile
+	public class SunGrassCampfire : ModTile
 	{
 		private Asset<Texture2D> flameTexture;
 

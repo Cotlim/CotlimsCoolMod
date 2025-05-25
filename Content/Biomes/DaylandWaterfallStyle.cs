@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 
 namespace CotlimsCoolMod.Content.Biomes
 {
-	public class ExampleWaterfallStyle : ModWaterfallStyle
+	public class DaylandWaterfallStyle : ModWaterfallStyle
 	{
 		// Makes the waterfall provide light
 		// Learn how to make a waterfall: https://terraria.wiki.gg/wiki/Waterfall

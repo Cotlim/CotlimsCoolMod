@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 
 namespace CotlimsCoolMod.Content.Items.Placeable
 {
-	public class CotlandWall : ModItem
+	public class SunGrassWall : ModItem
 	{
 		public override void SetStaticDefaults() {
 			Item.ResearchUnlockCount = 400;

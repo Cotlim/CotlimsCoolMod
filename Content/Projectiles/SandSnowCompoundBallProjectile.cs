@@ -57,8 +57,23 @@ namespace CotlimsCoolMod.Content.Projectiles
         public override void PostAI()
         {
             base.PostAI();
-			ItemID.SandBlock;
-			ItemID.SnowBlock
+        }
+    }
+
+    public class SandBallFallingNoItemProjectile : ModProjectile
+    {
+        public override string Texture => $"Terraria/Images/Projectile_{ProjectileID.SandBallFalling}";
+        public override void SetStaticDefaults()
+        {
+            ProjectileID.Sets.FallingBlockDoesNotFallThroughPlatforms[Type] = true;
+            ProjectileID.Sets.ForcePlateDetection[Type] = true;
+            ProjectileID.Sets.FallingBlockTileItem[Type] = new(TileID.Sand, ItemID.None);
+
+        }
+        override public void SetDefaults()
+		{
+            Projectile.CloneDefaults(ProjectileID.SandBallFalling);
+            AIType = ProjectileID.SandBallFalling;
         }
     }
 }

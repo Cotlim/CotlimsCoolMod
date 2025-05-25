@@ -9,6 +9,8 @@ Projectiles: {
 	CotlandSolutionProjectile.DisplayName: Cotland Solution Projectile
 	SandSnowCompoundBallGunProjectile.DisplayName: Sand Snow Compound Ball Gun Projectile
 	SandSnowCompoundBallFallingProjectile.DisplayName: Sand Snow Compound Ball Falling Projectile
+	DaylandSolutionProjectile.DisplayName: Dayland Solution Projectile
+	SandBallFallingNoItemProjectile.DisplayName: Sand Ball Falling No Item Projectile
 }
 
 Items: {
@@ -86,6 +88,26 @@ Items: {
 		Tooltip: ""
 		DisplayName: Sand Snow Compound
 	}
+
+	SunGrassSeed: {
+		DisplayName: Sun Grass Seed
+		Tooltip: ""
+	}
+
+	SunGrassCampfire: {
+		DisplayName: Sun Grass Campfire
+		Tooltip: ""
+	}
+
+	SunGrassTorch: {
+		DisplayName: Sun Grass Torch
+		Tooltip: ""
+	}
+
+	SunGrassWall: {
+		DisplayName: Sun Grass Wall
+		Tooltip: ""
+	}
 }
 
 Biomes: {
@@ -102,5 +124,26 @@ Biomes: {
 	CotlandSurfaceBiome: {
 		DisplayName: Cotland Surface Biome
 		TownNPCDialogueName: the Cotland Surface Biome
+	}
+
+	DaylandSurfaceBiome: {
+		DisplayName: Dayland Surface Biome
+		TownNPCDialogueName: the Dayland Surface Biome
+	}
+
+	DaylandUndergroundBiome: {
+		DisplayName: Dayland Underground Biome
+		TownNPCDialogueName: the Dayland Underground Biome
+	}
+}
+
+Configs: {
+	DebugConfig: {
+		DisplayName: Debug Config
+
+		DestabilizeTiles: {
+			Label: Destabilize Tiles
+			Tooltip: ""
+		}
 	}
 }

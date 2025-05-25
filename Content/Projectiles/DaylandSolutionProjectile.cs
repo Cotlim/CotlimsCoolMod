@@ -12,7 +12,7 @@ using CotlimsCoolMod.Content.Tiles;
 
 namespace CotlimsCoolMod.Content.Projectiles
 {
-    public class CotlandSolutionProjectile : ModProjectile
+    public class DaylandSolutionProjectile : ModProjectile
     {
 
         public ref float Progress => ref Projectile.ai[0];
@@ -24,10 +24,15 @@ namespace CotlimsCoolMod.Content.Projectiles
             Projectile.aiStyle = 0; // Here we set aiStyle back to 0 because we have custom AI code
         }
 
+        public override bool? CanCutTiles()
+        {
+            return false;
+        }
+
         public override void AI()
         {
             // Set the dust type to ExampleSolution
-            int dustType = ModContent.DustType<Dusts.CotlandSolution>();
+            int dustType = ModContent.DustType<Dusts.DaylandSolution>();
 
             if (Projectile.owner == Main.myPlayer)
             {
@@ -104,8 +109,9 @@ namespace CotlimsCoolMod.Content.Projectiles
                         // If the tile is stone, convert to ExampleBlock
                         if (TileID.Sets.Conversion.Grass[type])
                         {
-                            Main.tile[k, l].TileType = (ushort)ModContent.TileType<CotGrassBlock>();
-                            WorldGen.SquareTileFrame(k, l);
+                            Main.tile[k, l].TileType = (ushort)ModContent.TileType<SunGrassTile>();
+                            WorldGen.TileFrame(k, l);
+                            WorldGen.DiamondTileFrame(k, l);
                             NetMessage.SendTileSquare(-1, k, l, 1);
                         }
                         // If the tile is sand, convert to ExampleSand

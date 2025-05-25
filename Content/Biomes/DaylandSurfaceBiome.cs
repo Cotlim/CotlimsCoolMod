@@ -12,18 +12,18 @@ using Terraria.ModLoader;
 namespace CotlimsCoolMod.Content.Biomes
 {
     // Shows setting up two basic biomes. For a more complicated example, please request.
-    public class CotlandSurfaceBiome : ModBiome
+    public class DaylandSurfaceBiome : ModBiome
     {
         // Select all the scenery
-        public override ModWaterStyle WaterStyle => ModContent.GetInstance<CotlandWaterStyle>(); // Sets a water style for when inside this biome
-        public override ModSurfaceBackgroundStyle SurfaceBackgroundStyle => ModContent.GetInstance<CotlandSurfaceBackgroundStyle>();
+        public override ModWaterStyle WaterStyle => ModContent.GetInstance<DaylandWaterStyle>(); // Sets a water style for when inside this biome
+        public override ModSurfaceBackgroundStyle SurfaceBackgroundStyle => ModContent.GetInstance<DaylandSurfaceBackgroundStyle>();
         public override CaptureBiome.TileColorStyle TileColorStyle => CaptureBiome.TileColorStyle.Normal;
 
         // Select Music 
         public override int Music => MusicLoader.GetMusicSlot(Mod, "Assets/Music/MysteriousMystery");
 
-        public override int BiomeTorchItemType => ModContent.ItemType<CotTorch>();
-        public override int BiomeCampfireItemType => ModContent.ItemType<CotCampfire>();
+        public override int BiomeTorchItemType => ModContent.ItemType<SunGrassTorch>();
+        public override int BiomeCampfireItemType => ModContent.ItemType<SunGrassCampfire>();
 
         // Populate the Bestiary Filter
         public override string BestiaryIcon => base.BestiaryIcon;
@@ -35,7 +35,7 @@ namespace CotlimsCoolMod.Content.Biomes
         public override bool IsBiomeActive(Player player)
         {
             // First, we will use the exampleBlockCount from our added ModSystem for our first custom condition
-            bool b1 = CotlandTileCount.CotBlockInfluence >= 1;
+            bool b1 = SunGrassTileCount.SunGrassTileInfluence >= 1;
 
             // Second, we will limit this biome to the inner horizontal third of the map as our second custom condition
             bool b2 = Math.Abs(player.position.ToTileCoordinates().X - Main.maxTilesX / 2) < Main.maxTilesX / 6;
@@ -67,8 +67,8 @@ namespace CotlimsCoolMod.Content.Biomes
 
         public static void SetCotlandCollor(On_Main.orig_SetBackColor orig, Main.InfoToSetBackColor info, out Color sunColor, out Color moonColor)
         {
-            CotlandTileCount.UpdateInfluence();
-            float influence = CotlandTileCount.CotBlockInfluence;
+            SunGrassTileCount.UpdateInfluence();
+            float influence = SunGrassTileCount.SunGrassTileInfluence;
             //Main.NewText(influence);
             orig(info, out sunColor, out moonColor);
             if (influence > 0.01f && !Main.dayTime)
@@ -83,6 +83,7 @@ namespace CotlimsCoolMod.Content.Biomes
                 
                 orig(info, out sunColor, out moonColor);
                 Color biomeTimeColor = new Color(Main.ColorOfTheSkies.ToVector4());
+                biomeTimeColor.B = (byte)((float)biomeTimeColor.B * 0.8f);
                 Main.time = time;
                 Main.dayTime = dayTime;
 

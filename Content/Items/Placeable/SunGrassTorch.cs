@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CotlimsCoolMod.Content.Items.Placeable
 {
-	public class CotTorch : ModItem
+	public class SunGrassTorch : ModItem
 	{
 		public override void SetStaticDefaults() {
 			Item.ResearchUnlockCount = 100;
@@ -19,7 +19,7 @@ namespace CotlimsCoolMod.Content.Items.Placeable
 		public override void SetDefaults() {
 			// DefaultToTorch sets various properties common to torch placing items. Hover over DefaultToTorch in Visual Studio to see the specific properties set.
 			// Of particular note to torches are Item.holdStyle, Item.flame, and Item.noWet. 
-			Item.DefaultToTorch(ModContent.TileType<Tiles.ExampleTorch>(), 0, false);
+			Item.DefaultToTorch(ModContent.TileType<Tiles.SunGrassTorch>(), 0, false);
 			Item.value = 50;
 		}
 

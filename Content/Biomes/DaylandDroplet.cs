@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 
 namespace CotlimsCoolMod.Content.Biomes
 {
-	public class ExampleDroplet : ModGore
+	public class DaylandDroplet : ModGore
 	{
 		public override void SetStaticDefaults() {
 			ChildSafety.SafeGore[Type] = true;

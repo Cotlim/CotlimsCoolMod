@@ -14,7 +14,7 @@ namespace CotlimsCoolMod.Content.Walls
 			AddMapEntry(new Color(150, 150, 150));
 
 			// We need to manually register the item drop, since no item places this wall. This wall can only be obtained by using ExampleSolution on natural spider walls.
-			RegisterItemDrop(ModContent.ItemType<Items.Placeable.CotlandWall>());
+			RegisterItemDrop(ModContent.ItemType<Items.Placeable.SunGrassWall>());
 		}
 
 		public override void NumDust(int i, int j, bool fail, ref int num) {

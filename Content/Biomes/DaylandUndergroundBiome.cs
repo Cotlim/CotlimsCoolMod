@@ -7,10 +7,10 @@ using Terraria.ModLoader;
 
 namespace CotlimsCoolMod.Content.Biomes
 {
-	public class ExampleUndergroundBiome : ModBiome
+	public class DaylandUndergroundBiome : ModBiome
 	{
 		// Select all the scenery
-		public override ModUndergroundBackgroundStyle UndergroundBackgroundStyle => ModContent.GetInstance<ExampleUndergroundBackgroundStyle>();
+		public override ModUndergroundBackgroundStyle UndergroundBackgroundStyle => ModContent.GetInstance<DaylandUndergroundBackgroundStyle>();
 
 		// Select Music
 		public override int Music => MusicLoader.GetMusicSlot(Mod, "Assets/Music/MysteriousMystery");
@@ -28,7 +28,7 @@ namespace CotlimsCoolMod.Content.Biomes
 			// Limit the biome height to be underground in either rock layer or dirt layer
 			return (player.ZoneRockLayerHeight || player.ZoneDirtLayerHeight) &&
 				// Check how many tiles of our biome are present, such that biome should be active
-				CotlandTileCount.CotBlockInfluence >= 1 &&
+				SunGrassTileCount.SunGrassTileInfluence >= 1 &&
 				// Limit our biome to be in only the horizontal center third of the world.
 				Math.Abs(player.position.ToTileCoordinates().X - Main.maxTilesX / 2) < Main.maxTilesX / 6;
 		}

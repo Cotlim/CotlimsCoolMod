@@ -14,7 +14,7 @@ using Terraria.ObjectData;
 namespace CotlimsCoolMod.Content.Tiles
 {
 	//// Torches are special tiles that support the block swap feature and the biome torch feature. ExampleSurfaceBiome shows how the biome torch is assigned.
-	public class ExampleTorch : ModTile
+	public class SunGrassTorch : ModTile
 	{
 		private Asset<Texture2D> flameTexture;
 
@@ -95,7 +95,7 @@ namespace CotlimsCoolMod.Content.Tiles
 
 			// The influence positive torch luck can have overall is 0.1 (if positive luck is any number less than 1) or 0.2 (if positive luck is greater than or equal to 1)
 
-			bool inExampleUndergroundBiome = player.InModBiome<ExampleUndergroundBiome>();
+			bool inExampleUndergroundBiome = player.InModBiome<DaylandUndergroundBiome>();
 			return inExampleUndergroundBiome ? 1f : -0.1f; // ExampleTorch gives maximum positive luck when in example biome, otherwise a small negative luck
 		}
 

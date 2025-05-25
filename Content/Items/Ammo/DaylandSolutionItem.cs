@@ -9,7 +9,7 @@ using Terraria.ModLoader;
 
 namespace CotlimsCoolMod.Content.Items.Ammo
 {
-    public class CotlandSolutionItem : ModItem
+    public class DaylandSolutionItem : ModItem
     {
 
         public override void SetStaticDefaults()
@@ -19,7 +19,7 @@ namespace CotlimsCoolMod.Content.Items.Ammo
 
         public override void SetDefaults()
         {
-            Item.DefaultToSolution(ModContent.ProjectileType<CotlandSolutionProjectile>());
+            Item.DefaultToSolution(ModContent.ProjectileType<DaylandSolutionProjectile>());
             Item.value = Item.buyPrice(0, 0, 25);
             Item.rare = ItemRarityID.Orange;
         }

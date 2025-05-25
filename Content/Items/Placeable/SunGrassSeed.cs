@@ -1,6 +1,7 @@
 ﻿
 using CotlimsCoolMod.Content.Tiles;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,27 +16,24 @@ using Terraria.ObjectData;
 
 namespace CotlimsCoolMod.Content.Items.Placeable
 {
-    public class CotGrassSeed : ModItem
+    public class SunGrassSeed : ModItem
     {
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 100;
-
-            // Mods can be translated to any of the languages tModLoader supports. See https://github.com/tModLoader/tModLoader/wiki/Localization
-            // Translations go in localization files (.hjson files), but these are listed here as an example to help modders become aware of the possibility that users might want to use your mod in other lauguages:
-            // English: "Example Block", "This is a modded tile."
         }
 
         public override void SetDefaults()
         {
 
-            Item.DefaultToPlaceableTile(ModContent.TileType<Tiles.CotGrassBlock>());
+            Item.DefaultToPlaceableTile(ModContent.TileType<Tiles.SunGrassTile>());
             Item.width = 22;
             Item.height = 18;
+            Item.channel = true;
             //ItemID.Sets.ExtractinatorMode[Item.type] = Item.type;
             ItemID.Sets.GrassSeeds[Type] = true;
-            CotlimsCoolMod.GrassTileRelationsheep.Add(
-                new(Type, TileID.Grass, ModContent.TileType<Tiles.CotGrassBlock>())
+            CotlimsCoolMod.GrassTileRelationship.Add(
+                new(Type, TileID.Grass, ModContent.TileType<Tiles.SunGrassTile>())
                 );
             Item.createTile = -1;
         }
@@ -66,25 +64,18 @@ namespace CotlimsCoolMod.Content.Items.Placeable
 
             Tile tile = Framing.GetTileSafely(Player.tileTargetX, Player.tileTargetY);
 
-            bool flag = !CotlimsCoolMod.IsTileSolid(i - 1, j) ||
-                        !CotlimsCoolMod.IsTileSolid(i, j + 1) ||
-                        !CotlimsCoolMod.IsTileSolid(i + 1, j) ||
-                        !CotlimsCoolMod.IsTileSolid(i, j - 1);
-
-            bool flag2 = !CotlimsCoolMod.IsTileSolid(i - 1, j - 1) ||
-                !CotlimsCoolMod.IsTileSolid(i - 1, j + 1) ||
-                !CotlimsCoolMod.IsTileSolid(i + 1, j + 1) ||
-                !CotlimsCoolMod.IsTileSolid(i + 1, j - 1);
-
-            if (tile.HasTile && !tile.IsActuated && (flag || flag2))
+            if (tile.HasTile && !tile.IsActuated && player.channel)
             {
-                foreach (var l in CotlimsCoolMod.GrassTileRelationsheep.Where(t => t.Item1 == Type))
+                foreach (var l in CotlimsCoolMod.GrassTileRelationship.Where(t => t.Item1 == Type))
                 {
                     if (tile.TileType == l.Item2)
                     {
                         Main.tile[i, j].TileType = (ushort)l.Item3;
+                        
+
                         SoundEngine.PlaySound(SoundID.Dig, player.Center);
-                        WorldGen.SquareTileFrame(i, j);
+                        WorldGen.TileFrame(i, j);
+                        WorldGen.DiamondTileFrame(i, j);
                         NetMessage.SendTileSquare(-1, i, j, 1);
                         return true;
                     }
@@ -92,12 +83,7 @@ namespace CotlimsCoolMod.Content.Items.Placeable
             }
             return false;
         }
-        public override void Load()
-        {
-            base.Load();
 
-        }
-        
         public static void SmartCursorCustomSeedModification(Terraria.GameContent.On_SmartCursorHelper.orig_Step_GrassSeeds orig, object providedInfo, ref int focusedX, ref int focusedY)
         {
             //orig(providedInfo, ref focusedX, ref focusedY);
@@ -175,7 +161,7 @@ namespace CotlimsCoolMod.Content.Items.Placeable
                                 flag3 = tile.TileType == 57;
                                 break;
                         }
-                        foreach (var l in CotlimsCoolMod.GrassTileRelationsheep)
+                        foreach (var l in CotlimsCoolMod.GrassTileRelationship)
                         {
                             if (type == l.Item1)
                             {
