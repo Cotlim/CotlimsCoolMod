@@ -21,13 +21,13 @@ namespace CotlimsCoolMod
         public static List<Tuple<int, int, int>> GrassTileRelationship = new();
         public override void Load()
         {
-            On_Main.SetBackColor += DaylandSurfaceBiome.SetCotlandCollor;
+            
             Terraria.GameContent.On_SmartCursorHelper.Step_GrassSeeds += SunGrassSeed.SmartCursorCustomSeedModification;
         }
 
         public override void Unload()
         {
-            On_Main.SetBackColor -= DaylandSurfaceBiome.SetCotlandCollor;
+            
             Terraria.GameContent.On_SmartCursorHelper.Step_GrassSeeds -= SunGrassSeed.SmartCursorCustomSeedModification;
         }
 

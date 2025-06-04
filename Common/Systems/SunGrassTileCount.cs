@@ -30,5 +30,10 @@ namespace CotlimsCoolMod.Common.Systems
                 sunGrassTileInfluence = MathHelper.Lerp(sunGrassTileInfluence, 0f, 0.05f);
             }
         }
+
+        public override void PostUpdateEverything()
+        {
+            UpdateInfluence();
+        }
     }
 }

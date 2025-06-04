@@ -13,12 +13,10 @@ using Terraria.ObjectData;
 
 namespace CotlimsCoolMod.Content.Tiles
 {
-    public class SunGrassTile : ModTile
+    public class WaterGrassTile : ModTile
     {
-        private Asset<Texture2D> glowTexture;
         public override void SetStaticDefaults()
         {
-            Main.tileLighted[Type] = true;
             Main.tileSolid[Type] = true;
             Main.tileMerge[Type][0] = true;
             Main.tileMerge[0][Type] = true;
@@ -30,9 +28,9 @@ namespace CotlimsCoolMod.Content.Tiles
             Main.tileMerge[199][Type] = true;
             Main.tileMerge[Type][109] = true;
             Main.tileMerge[109][Type] = true;
-            Main.tileBlockLight[Type] = true;
-            Main.tileBlendAll[Type] = true;
-            TileID.Sets.Conversion.MergesWithDirtInASpecialWay[Type] = true;
+            Main.tileMerge[TileID.Sand][Type] = true;
+            Main.tileMerge[Type][TileID.Sand] = true;
+            //Main.tileBlendAll[Type] = true;
             TileID.Sets.Conversion.Grass[Type] = true;
             TileID.Sets.Grass[Type] = true;
             TileID.Sets.ResetsHalfBrickPlacementAttempt[Type] = true;
@@ -40,12 +38,12 @@ namespace CotlimsCoolMod.Content.Tiles
             TileID.Sets.CanBeDugByShovel[Type] = true;
             TileID.Sets.DoesntPlaceWithTileReplacement[Type] = true;
             TileID.Sets.ChecksForMerge[Type] = true;
+            TileID.Sets.NeedsGrassFraming[Type] = true;
+            TileID.Sets.NeedsGrassFramingDirt[Type] = TileID.Sand;
 
-            DustType = ModContent.DustType<SunGrassSparkle>();
+            DustType = ModContent.DustType<WaterGrassSparkle>();
 
             AddMapEntry(new Color(200, 200, 200));
-
-            //glowTexture = ModContent.Request<Texture2D>(Texture + "_Glow");
 
         }
 
@@ -60,7 +58,7 @@ namespace CotlimsCoolMod.Content.Tiles
             {
                 fail = true;
                 effectOnly = true;
-                Framing.GetTileSafely(i, j).TileType = TileID.Grass;
+                Framing.GetTileSafely(i, j).TileType = TileID.Sand;
                 WorldGen.SquareTileFrame(i, j);
                 NetMessage.SendTileSquare(-1, i, j, 1);
                 SoundEngine.PlaySound(SoundID.Grass);
@@ -71,46 +69,10 @@ namespace CotlimsCoolMod.Content.Tiles
 
             }
         }
-        public override bool CanPlace(int i, int j)
-        {
-            //Main.NewText(Framing.GetTileSafely(i, j).TileType);
-            //return Framing.GetTileSafely(i, j).HasTile;
-            return true;
-        }
-        public override void PlaceInWorld(int i, int j, Item item)
-        {
-            /*8if (Framing.GetTileSafely(i, j).TileType == 0)
-            {
-                Framing.GetTileSafely(i, j).ResetToType(Type);
-            }*/
-
-        }
 
         public override void ChangeWaterfallStyle(ref int style)
         {
             style = ModContent.GetInstance<DaylandWaterfallStyle>().Slot;
-        }
-
-        public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
-        {
-            /*
-            Tile tile = Main.tile[i, j];
-
-            Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
-
-            spriteBatch.Draw(
-                glowTexture.Value,
-                new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y) + zero,
-                new Rectangle(tile.TileFrameX, tile.TileFrameY, 16, 16),
-                Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
-            */
-        }
-        public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
-        {
-            Tile tile = Main.tile[i, j];
-            r = 0.4f;
-            g = 0.4f;
-            b = 0f;
         }
 
         public unsafe override void RandomUpdate(int i, int j)
@@ -119,12 +81,18 @@ namespace CotlimsCoolMod.Content.Tiles
             {
                 return;
             }
-            Framing.GetTileSafely(i, j + 1);
+            Tile downerTile = Framing.GetTileSafely(i, j + 1);
             Tile upperTile = Framing.GetTileSafely(i, j - 1);
 
             if (!upperTile.HasTile && Main.tile[i, j].HasTile && Utils.NextBool(Main.rand, 4) && upperTile.LiquidAmount == 0)
             {
-                WorldGen.PlaceObject(i, j - 1, ModContent.TileType<SunGrassSmallFoliage>(), true, Main.rand.Next(22), 0, -1, -1);
+                WorldGen.PlaceObject(i, j - 1, ModContent.TileType<WaterGrassSmallFoliage>(), true, Main.rand.Next(22), 0, -1, -1);
+            }
+
+            if (!downerTile.HasTile || downerTile.TileType != TileID.Sand || downerTile.TileType != Type)
+            {
+                Framing.GetTileSafely(i, j).TileType = (ushort)TileID.Sand;
+                WorldGen.SquareTileFrame(i, j);
             }
         }
 
@@ -133,7 +101,7 @@ namespace CotlimsCoolMod.Content.Tiles
             Tile upperTile = Framing.GetTileSafely(i, j - 1);
             if (TileID.Sets.TileCutIgnore.Regrowth[upperTile.TileType] && upperTile.HasTile && upperTile.TileType != (ushort)ModContent.TileType<SunGrassSmallFoliage>())
             {
-                upperTile.TileType = (ushort)ModContent.TileType<SunGrassSmallFoliage>();
+                upperTile.TileType = (ushort)ModContent.TileType<WaterGrassSmallFoliage>();
                 WorldGen.TileFrame(i, j - 1);
                 NetMessage.SendTileSquare(-1, i, j - 1, 1);
             }
@@ -142,7 +110,7 @@ namespace CotlimsCoolMod.Content.Tiles
 
         public override bool CanReplace(int i, int j, int tileTypeBeingPlaced)
         {
-            if(tileTypeBeingPlaced == TileID.Dirt)
+            if (tileTypeBeingPlaced == TileID.Sand)
             {
                 return false;
             }
@@ -152,7 +120,6 @@ namespace CotlimsCoolMod.Content.Tiles
                 KillTile(i, j, ref _, ref _, ref _);
                 return true;
             }
-            return base.CanReplace(i, j, tileTypeBeingPlaced);
         }
     }
 }

@@ -13,7 +13,7 @@ using Terraria.Enums;
 
 namespace CotlimsCoolMod.Content.Tiles
 {
-    internal class SunGrassSmallFoliage : ModTile
+    internal class WaterGrassSmallFoliage : ModTile
     {
 
         // Token: 0x060002C7 RID: 711 RVA: 0x000100A4 File Offset: 0x0000E2A4
@@ -43,7 +43,7 @@ namespace CotlimsCoolMod.Content.Tiles
             TileObjectData.newTile.UsesCustomCanPlace = true;
             TileObjectData.newTile.AnchorValidTiles = new int[]
             {
-                ModContent.TileType<SunGrassTile>()
+                ModContent.TileType<WaterGrassTile>()
             };
             TileObjectData.addTile(Type);
             HitSound = new SoundStyle?(SoundID.Grass);

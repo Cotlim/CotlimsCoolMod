@@ -108,6 +108,16 @@ Items: {
 		DisplayName: Sun Grass Wall
 		Tooltip: ""
 	}
+
+	DaylandSolutionItem: {
+		DisplayName: Dayland Solution Item
+		Tooltip: ""
+	}
+
+	WaterGrassSeed: {
+		Tooltip: ""
+		DisplayName: Water Grass Seed
+	}
 }
 
 Biomes: {

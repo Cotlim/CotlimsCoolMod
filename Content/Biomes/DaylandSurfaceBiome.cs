@@ -67,7 +67,6 @@ namespace CotlimsCoolMod.Content.Biomes
 
         public static void SetCotlandCollor(On_Main.orig_SetBackColor orig, Main.InfoToSetBackColor info, out Color sunColor, out Color moonColor)
         {
-            SunGrassTileCount.UpdateInfluence();
             float influence = SunGrassTileCount.SunGrassTileInfluence;
             //Main.NewText(influence);
             orig(info, out sunColor, out moonColor);
@@ -91,7 +90,6 @@ namespace CotlimsCoolMod.Content.Biomes
                 moonColor = new Color((sunColor.ToVector4()* (1f - influence) + (sunColor.ToVector4() + Main.DiscoColor.ToVector4()) * influence / 2f));
                 sunColor = moonColor;
                 Main.ColorOfTheSkies = new Color(biomeTimeColor.ToVector4() * influence + Main.ColorOfTheSkies.ToVector4() * (1f - influence));
-                
 
             }
             

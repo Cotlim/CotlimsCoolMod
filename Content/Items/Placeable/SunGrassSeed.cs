@@ -1,5 +1,6 @@
 ﻿
 using CotlimsCoolMod.Content.Tiles;
+using CotlimsCoolMod.Helper;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -18,27 +19,27 @@ namespace CotlimsCoolMod.Content.Items.Placeable
 {
     public class SunGrassSeed : ModItem
     {
+        static int tileOnWhatPlace;
+        static int tileToPlace;
         public override void SetStaticDefaults()
         {
-            Item.ResearchUnlockCount = 100;
+            tileOnWhatPlace = TileID.Grass;
+            tileToPlace = ModContent.TileType<SunGrassTile>();
         }
 
         public override void SetDefaults()
         {
-
-            Item.DefaultToPlaceableTile(ModContent.TileType<Tiles.SunGrassTile>());
+            Item.ResearchUnlockCount = 100;
+            Item.DefaultToPlaceableTile(-1);
+            Item.useAnimation = Item.useTime;
+            Item.createTile = -1;
             Item.width = 22;
             Item.height = 18;
-            Item.channel = true;
-            //ItemID.Sets.ExtractinatorMode[Item.type] = Item.type;
-            ItemID.Sets.GrassSeeds[Type] = true;
             CotlimsCoolMod.GrassTileRelationship.Add(
-                new(Type, TileID.Grass, ModContent.TileType<Tiles.SunGrassTile>())
-                );
-            Item.createTile = -1;
+                new(Type, tileOnWhatPlace, tileToPlace));
+            ItemID.Sets.GrassSeeds[Type] = true;
         }
 
-        // Please see Content/ExampleRecipes.cs for a detailed explanation of recipe creation.
         public override void AddRecipes()
         {
             CreateRecipe(10)
@@ -46,17 +47,6 @@ namespace CotlimsCoolMod.Content.Items.Placeable
                 .Register();
         }
 
-        public override void ExtractinatorUse(int extractinatorBlockType, ref int resultType, ref int resultStack)
-        { // Calls upon use of an extractinator. Below is the chance you will get ExampleOre from the extractinator.
-            if (Main.rand.NextBool(3))
-            {
-                resultType = ItemID.IronOre;  // Get this from the extractinator with a 1 in 3 chance.
-                if (Main.rand.NextBool(5))
-                {
-                    resultStack += Main.rand.Next(2); // Add a chance to get more than one of ExampleOre from the extractinator.
-                }
-            }
-        }
         public override bool? UseItem(Player player)
         {
             int i = Player.tileTargetX;
@@ -64,21 +54,17 @@ namespace CotlimsCoolMod.Content.Items.Placeable
 
             Tile tile = Framing.GetTileSafely(Player.tileTargetX, Player.tileTargetY);
 
-            if (tile.HasTile && !tile.IsActuated && player.channel)
+            if (tile.HasTile && !tile.IsActuated)
             {
-                foreach (var l in CotlimsCoolMod.GrassTileRelationship.Where(t => t.Item1 == Type))
+                if (tile.TileType == tileOnWhatPlace && CCMUtils.WithinPlacementRange(player, i, j))
                 {
-                    if (tile.TileType == l.Item2)
-                    {
-                        Main.tile[i, j].TileType = (ushort)l.Item3;
-                        
+                    Main.tile[i, j].TileType = (ushort)tileToPlace;
 
-                        SoundEngine.PlaySound(SoundID.Dig, player.Center);
-                        WorldGen.TileFrame(i, j);
-                        WorldGen.DiamondTileFrame(i, j);
-                        NetMessage.SendTileSquare(-1, i, j, 1);
-                        return true;
-                    }
+                    SoundEngine.PlaySound(SoundID.Dig, player.Center);
+                    WorldGen.TileFrame(i, j);
+                    WorldGen.DiamondTileFrame(i, j);
+                    NetMessage.SendTileSquare(-1, i, j, 1);
+                    return true;
                 }
             }
             return false;
